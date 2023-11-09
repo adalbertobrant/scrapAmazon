@@ -4,7 +4,7 @@ let browser;
 
 const initializePuppeteer = async () => {
   try {
-      browser = await puppeteer.launch();
+      browser = await puppeteer.launch({headless: 'new'});
       return await browser.newPage();
   } catch (err) {
     throw err;
