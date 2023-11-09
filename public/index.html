@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Amazon Scraper - Puppeeteer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Amazon Scraper</h1>
+    <input type="text" id="keyword" placeholder="Digite a palavra-chave">
+    <button onclick="scrape()">Scrape</button>
+    <div id="results"></div>
+
+    <script>
+
+	async function scrape() {
+  const keyword = document.getElementById('keyword').value;
+  const response = await fetch(`http://localhost:3000/api/scrape?keyword=${keyword}`);
+  const data = await response.json();
+  const resultsDiv = document.getElementById('results');
+  resultsDiv.innerHTML = '';
+  if (Array.isArray(data)) { // Verifique se data é um array
+    data.forEach(product => {
+      const productDiv = document.createElement('div');
+      productDiv.innerHTML = `
+        <h2>${product.title}</h2>
+        <img src="${product.image}" alt="${product.title}">
+        <p>Rating: ${product.ratings}</p>
+        <p>Reviews: ${product.reviews}</p>
+      `;
+      resultsDiv.appendChild(productDiv);
+    });
+  }
+}
+
+
+	</script>
+
+</body>
+</html>
+
